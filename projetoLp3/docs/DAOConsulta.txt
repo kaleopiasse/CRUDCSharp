@@ -1,0 +1,457 @@
+este artigo eu vou mostrar como gerenciar um banco de dados MySQL efetuando as
+operações de acesso, seleção, inclusão, alteração e
+exclusão usando a linguagem C# e ADO .NET.
+
+Vamos trabalhar usando a arquitetura
+em 3 camadas definindo assim:
+
+A camada de interface : UI –
+namespace UI
+A camada de negócios : BLL –
+namespace BLL e classe produtoBLL
+A camada de acesso a dados :
+DAL – namespace DAL e classe produtoDAL
+Vamos também criar a entidade
+Produto que será o objeto do nosso negócio e que possuirá 3
+propriedades: ID, Nome e Preco representando assim cada coluna da
+tabela Estoque. A entidade terá o namespace DTO e a
+classe Produto.
+
+Eu poderia criar 3 projetos
+distintos, mas para simplificar vou criar as seguintes classes :
+
+produtoBLL – contém os métodos das
+regras de negócio; (namespace BLL)
+produtoDAL – contém os métodos para
+acesso a dados no MySQL; (namespace DAL)
+produto – contém a classe Produto;
+(namespace DTO)
+UI – representa a nossa
+aplicação Windows Forms;
+
+
+Lembrando que em uma aplicação em
+3 camadas temos uma hierarquia de chamadas onde:
+
+A UI chama a BLL que chama a
+DLL que, por sua vez, acessa os dados e retorna os
+objetos;
+
+Nunca deverá haver uma chamada
+direta da UI para a DAL e vice-versa.(Quando usamos os
+controles de acesso a dados vinculados no formulário, estamos
+fazendo o acesso direto da camada de interface para a DAL ou
+banco de dados, o que não é uma boa prática.)
+
+As ferramentas usadas são:
+
+Banco de dados MySQL 5.01; http://dev.mysql.com/downloads/mysql/5.1.html
+MySQL Administrator e MySQL
+Query Browse – http://dev.mysql.com/downloads/gui-tools/5.0.html;
+MySQl Connector .NET 6.04; http://dev.mysql.com/downloads/connector/
+SharpDevelop 3.0 ou Visual
+Studio C# 2008; http://www.icsharpcode.net/OpenSource/SD/Download/ ou http://www.microsoft.com/express/vcsharp/
+Se você não possuir o MySQL e o Connector .NET para
+o MySQL, deverá efetuar o dowload e instalar. A instalação é simples – basta clicar
+no pacote e seguir as orientações aceitando as configurações padrão. Veja a
+seguir a sequência de telas principais da instalação:
+
+
+
+1-tela inicial de instalação do MySQL
+
+
+
+2-Selecione a opção Typical para instalação
+
+
+
+3-Verifique o local onde os arquivos serão instalados    
+
+
+
+4-Marque a opção para configurar o MySQL
+
+
+
+5-Marque a opção Standard Configuration    
+
+
+
+6-Marque a opção para instalar como um serviço e forneça um nome para o serviço. O nome padrão é MySQL
+
+
+
+7-Informe uma senha ao usuário root    
+
+
+
+8-Clique no botão Execute para processar as opções definidas
+
+Com os componentes instalados, vamos
+efetuar as seguintes tarefas:
+
+Criar um banco de dados no
+MySQL Chamado Cadastro e uma tabela
+chamada Estoque com os campos ID,
+Nome e Preco;
+Criar um novo projeto Windows
+Forms no Visual C# 2008  Express  ou SharpDevelop;
+Embora eu já tenha descrito como
+criar um banco de dados no MySQL usando MySQL Administrator vou
+resumidamente repetir os passos:
+
+Abra o MySQL Admininistrator,
+e, na área inferior esquerda, onde são exibidos os
+esquemas. clique com o botão direito e selecione a
+opção: Create New Schema;
+Na janela Create new Schema informe o nome do banco de dados, no nosso caso,
+Cadastro, e tecle OK;
+
+
+Clique sobre o esquema criado e
+selecione a opção Create New Table ou clique no botão
+Create Table;
+A seguir defina o nome da
+tabela como Estoque e defina os campos da mesma conforme
+a figura abaixo:
+
+
+A seguir, a partir do menu Tools,
+selecione a opção MySQL Query Browse;
+Na janela do MySQL Query Browse
+digite a instrução INSERT INTO Estoque VALUES
+(‘,”Caderno”, 1.23) e clique no botão Execute
+para incluir um registro na tabela. Repita a operação e
+inclua uma borracha com um valor de forma que, ao efetuar
+uma instrução SELECT * FROM Estoque, iremos obter o
+resultado abaixo:
+
+
+Neste momento já temos o banco de
+dados Cadastro e a tabela Estoque com dois registros.
+
+Abra o SharpDevelop ou o Visual C#
+2008 Express e crie um novo projeto do tipo Windows Application
+com o nome MySQL_C#;
+
+Devemos incluir a referência ao
+Connector .NET para ter acesso às classes de acesso a dados do
+MySQL. Para isso clique sobre o nome do projeto e selecione a
+opção Add Reference;
+
+A seguir inclua uma referência a
+dll do MySQL Connector .NET selecionando na pasta onde foi
+instalada e clicando no botão Abrir/Open;
+
+
+
+No formulário padrão inclua um
+controle TabControl e defina dois TabPages:
+
+TabPage1 – Text = Cadastro
+TabPage2 – Text = Lista
+tabControl1 – Appearence = FlatButtons
+(para obter a aparência conforme a figura abaixo)
+
+
+
+Na primeira TabPage inclua os
+seguintes controles:
+
+3 controles Label
+3 Controles TextBox :txtID,
+txtNome e txtPreco
+5 controles Button : btnNovo,
+btnAltear, btnExcluir, btnExibir e btnProcurar
+Na segunda TabPage inclua um
+controle DataGridView – gdvProdutos.
+
+Acima vemos o leiaute do formulário
+para cada TabPage.
+
+Vamos iniciar criando o arquivo de
+classe Produto.cs que irá representar a classe Produto, clicando
+no nome do projeto e selecionando a opção Add New Item;
+
+Na janela de templates selecione o
+template Class e informe o nome Produto.cs;
+
+A seguir defina o seguinte código nesta classe onde
+estamos definindo 3 membros e 3 propriedades da nossa entidade Produto:
+
+using System;
+
+namespace DTO
+{
+    public class Produto
+    {
+ 	int _id;
+	String _nome;
+	Decimal _preco;
+
+       public int ID
+        {
+          get {return _id;}
+          set {_id = value;}
+        }
+       public String Nome 
+        {
+          get {return _nome;}
+          set {_nome = value;}
+        }
+      public Decimal Preco
+        {
+          get {return _preco;}
+          set {_preco = value;}
+        }
+     }
+}
+Neste arquivo criamos a classe
+Produto e definimos os membros _id, _nome e _preco e as
+propriedades ID, Nome e Preco. Ela será usada para
+transferência de objetos entre as camadas de interface de
+negócio e de acesso a dados.
+
+Agora vamos criar o arquivo de
+classe DAL.cs clicando no nome do projeto e selecionando a
+opção Add New Item;
+
+Na janela de templates selecione o
+template Class e informe o nome DAL.cs;
+
+Os pacotes usados nesta classe
+são:
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using MySql.Data.MySqlClient;
+using DTO;
+
+A seguir vamos definir na classe
+produtoDAL 6 métodos conforme exibidos abaixo:
+
+selectListProdutos – retorna
+uma lista de produtos : List<Produto> com os
+produtos selecionados;
+selectProdutos – retorna um
+DataTable com os produtos selecionados;
+selectProdutosByID – retorna
+uma entidade Produto para um produto selecionado pelo seu
+código (id);
+insertProduto – inclui um novo
+produto;
+updateProduto – atualiza um
+produto existente;
+deleteProduto – exclui um
+produto existente;
+
+
+Vejamos o código da classe produtoDAL:
+
+Declaramos duas variáveis que serão visíveis na
+classe:
+
+String
+_conexaoMySQL = “”;
+MySqlConnection con = null;
+
+O construtor da classe ProdutoDAL define a
+string de conexão com o banco de dados MySQL:
+
+public produtoDAL()
+
+    {
+
+    _conexaoMySQL = 
+    "server=localhost;user id=root;password=password;database=cadastro";
+
+    }
+onde temos:
+
+server – localhost, pois estou acessando o
+MySQL instalado na minha máquina local;
+id = root, pois estou usando o usuário root;
+password = password, pois essa foi a senha definida para o usuário root;
+database=cadastro, pois esse é o banco de dados que criamos no MySQL;
+
+Agora vejamos os métodos:
+
+1- SelectProdutos – Usada para exibir todos
+os produtos do estoque;
+
+public DataTable selectProdutos(){
+try{
+  String sql = "SELECT * FROM Estoque";
+  con = new MySqlConnection(_conexaoMySQL);
+  MySqlCommand cmd = new MySqlCommand(sql,con);
+  MySqlDataAdapter da = new MySqlDataAdapter();
+  da.SelectCommand = cmd;
+  DataTable dt = new DataTable();
+  da.Fill(dt);
+  return dt;
+}
+  catch (Exception ex)
+{
+   throw ex;
+}
+}	
+ 2- selecteProdutoByID() – Usada para
+retornar uma entidade Produto representando um único produto pelo seu
+código (id);
+
+public Produto
+selectProdutoByID(int id)
+
+{
+
+try{
+
+    String sql = "SELECT * FROM Estoque WHERE id = @id";
+
+    con = new MySqlConnection(_conexaoMySQL);
+
+     MySqlCommand cmd = new MySqlCommand(sql,con);
+
+    cmd.Parameters.AddWithValue("@id",id);
+
+    con.Open();
+
+    MySqlDataReader dr;
+
+
+    Produto produto = new Produto();
+
+   dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+
+   while (dr.Read()) {
+
+       produto.ID = Convert.ToInt32(dr["id"]);
+
+       produto.Nome = dr["Nome"].ToString();
+
+       produto.Preco = Convert.ToDecimal(dr["Preco"]);
+
+   }
+
+return produto;
+
+}
+
+catch (Exception ex)
+
+{
+
+throw ex;
+
+}
+
+}
+ 3- selectListProdutos() – Usada para
+retornar uma lista de objetos Produto representando uma coleção de produtos.
+
+public List<Produto> selectListProdutos()
+{
+    try {
+        using (MySqlConnection conn = new MySqlConnection(_conexaoMySQL)) {
+            using (MySqlCommand command = new MySqlCommand("Select * from Estoque", conn)) 
+            {
+                 conn.Open();
+  List<Produto> listaProdutos = new List<Produto>();
+                 using (MySqlDataReader dr = command.ExecuteReader()) 
+                {
+                    while (dr.Read()) {
+                        Produto produto = new Produto();
+                        produto.ID = (int)dr["id"];
+                        produto.Nome =  (String) dr["Nome"];
+                        produto.Preco = Convert.ToDecimal(dr["Preco"]);
+                        listaProdutos.Add(produto);
+                    }
+                }
+                return listaProdutos;
+            }
+        }
+    }
+    catch (Exception ex) {
+        throw new Exception("Erro ao acessar estoque " + ex.Message);
+    }
+}		
+4- insertProduto() – Usada para incluir um
+novo produto no estoque;
+
+public void insertProduto(Produto produto){
+try{
+	String sql = "INSERT INTO Estoque (nome,preco) VALUES (@nome,@preco)";
+	con = new MySqlConnection(_conexaoMySQL);
+	MySqlCommand cmd = new MySqlCommand(sql,con);
+	cmd.Parameters.AddWithValue("@nome",produto.Nome);
+	cmd.Parameters.AddWithValue("@preco",produto.Preco);
+	con.Open();
+cmd.ExecuteNonQuery();
+	}
+	catch (Exception ex)
+	{
+		throw ex;
+	}
+	finally{
+		con.Close();
+	}
+}
+5- updateProduto() – Usada para atualizar os
+dados de um produto no estoque;
+
+public void updateProduto(Produto produto){
+try{
+        String sql = "UPDATE Estoque SET nome= @nome ,preco=@preco WHERE id = @id ";
+        con = new MySqlConnection(_conexaoMySQL);
+	MySqlCommand cmd = new MySqlCommand(sql,con);
+	cmd.Parameters.AddWithValue("@id",produto.ID);
+                cmd.Parameters.AddWithValue("@nome",produto.Nome);
+	cmd.Parameters.AddWithValue("@preco",produto.Preco);
+	con.Open();
+cmd.ExecuteNonQuery();
+	}
+	catch (Exception ex)
+	{
+	throw ex;
+               }
+	finally{
+	con.Close();
+	}
+}
+6- deleteProduto() – Usada para excluir um
+produto no estoque;
+
+public void deleteProduto(Produto produto){
+try{
+	String sql = "DELETE FROM Estoque WHERE id = @id ";
+	MySqlConnection con = new MySqlConnection(_conexaoMySQL);
+	MySqlCommand cmd = new MySqlCommand(sql,con);
+	cmd.Parameters.AddWithValue("@id",produto.ID);
+	con.Open();
+cmd.ExecuteNonQuery();
+	}
+	catch (Exception ex)
+	{
+		throw ex;
+	}
+	finally{
+		con.Close();
+	}
+}
+Eu mantive o código o mais simples possível usando
+ado .net clássica e instruções SQL. Poderia ter usado stored procedures, o que
+seria mais indicado.
+
+Esta é a nossa camada de acesso a dados e sua
+responsabilidade é acesssar e persistir dados no MySQL, só isso. Veja abaixo uma
+figura onde temos uma visão da nossa solução:
+
+
+
+Aguarde no próximo artigo a continuação onde irei
+criar a camada de negócios – BLL:
+
+

@@ -1,0 +1,14 @@
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\bin\Debug\projetoLp3.exe.config
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\bin\Debug\projetoLp3.exe
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\bin\Debug\projetoLp3.pdb
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.csprojResolveAssemblyReference.cache
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.Properties.Resources.resources
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.csproj.GenerateResource.cache
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.csproj.CoreCompileInputs.cache
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.exe
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.pdb
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.HomeView.resources
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.VoluntarioView.resources
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\bin\Debug\MySql.Data.dll
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\bin\Debug\MySql.Data.xml
+C:\Users\Kaleo\source\repos\projetoLp3\projetoLp3\obj\Debug\projetoLp3.csproj.CopyComplete

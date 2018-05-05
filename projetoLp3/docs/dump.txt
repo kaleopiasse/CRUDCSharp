@@ -1,0 +1,12 @@
+﻿create database projetoVoluntario;
+
+use projetoVoluntario;
+
+create table voluntario(
+	cpf varchar(11) not null,
+	nome varchar(150),
+	celular varchar(14),
+	email varchar(150),
+	primary key(cpf)
+);
+
