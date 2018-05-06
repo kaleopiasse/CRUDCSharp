@@ -38,16 +38,16 @@ namespace projetoLp3.model
             }
         }
 
+        //Metodo de pesquisa por CPF, recebe string do campo pesquisa
         public PessoaModel readPessoaPorCpf(String cpf)
         {
             PessoaModel pessoaModel = new PessoaModel();
 
             try
             {
-                String consulta = "select from voluntario where cpf = @cpf";
+                String consulta = "select * from voluntario where cpf ="+cpf;
                 conexao = new MySqlConnection(stringConexao);
                 MySqlCommand cmd = new MySqlCommand(consulta, conexao);
-                cmd.Parameters.AddWithValue("@cpf", cpf);
                 conexao.Open();
 
                 MySqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);

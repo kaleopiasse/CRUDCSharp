@@ -13,6 +13,10 @@ namespace projetoLp3
 {
     public partial class VoluntarioView : Form
     {
+        //Cria objeto pessoaModel
+        PessoaModel pessoaModel = new PessoaModel();
+        //Cria objeto pessoaDAO responsavel pela persistencia dos dados
+        PessoaDAO pessoaDAO = new PessoaDAO();
         public VoluntarioView()
         {
             InitializeComponent();
@@ -20,12 +24,13 @@ namespace projetoLp3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Cria uma nova pessoa passando parametros para construtor
-            PessoaModel pessoaModel = new PessoaModel(txtCpf.Text, txtNome.Text, txtCelular.Text, txtEmail.Text);
+            //define valores pessoaModel a partir dos dados da interface
+            pessoaModel.Cpf = txtCpf.Text;
+            pessoaModel.Nome = txtNome.Text;
+            pessoaModel.Celular = txtCelular.Text;
+            pessoaModel.Email = txtEmail.Text;
             //Imprime objeto pessoa para teste
             Console.WriteLine(pessoaModel.Cpf+pessoaModel.Nome+pessoaModel.Celular+pessoaModel.Email);
-            //Cria objeto pessoaDAO responsavel pela persistencia dos dados
-            PessoaDAO pessoaDAO = new PessoaDAO();
             //chama metodo criar pessoa passando o modelo criado
             pessoaDAO.createPessoa(pessoaModel);
             //Limpa os campos da interface
@@ -42,7 +47,11 @@ namespace projetoLp3
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            
+            pessoaModel=pessoaDAO.readPessoaPorCpf(txtCpf.Text);
+            txtCpf.Text = pessoaModel.Cpf;
+            txtNome.Text = pessoaModel.Nome;
+            txtCelular.Text = pessoaModel.Celular;
+            txtEmail.Text = pessoaModel.Email;
         }
     }
 }
