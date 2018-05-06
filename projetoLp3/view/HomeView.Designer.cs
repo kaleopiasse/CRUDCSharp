@@ -38,15 +38,17 @@
             // 
             this.flwButtons.Controls.Add(this.btnVoluntario);
             this.flwButtons.Location = new System.Drawing.Point(12, 12);
+            this.flwButtons.Margin = new System.Windows.Forms.Padding(1);
             this.flwButtons.Name = "flwButtons";
             this.flwButtons.Size = new System.Drawing.Size(98, 537);
             this.flwButtons.TabIndex = 0;
             // 
             // btnVoluntario
             // 
-            this.btnVoluntario.Location = new System.Drawing.Point(3, 3);
+            this.btnVoluntario.Location = new System.Drawing.Point(1, 1);
+            this.btnVoluntario.Margin = new System.Windows.Forms.Padding(1);
             this.btnVoluntario.Name = "btnVoluntario";
-            this.btnVoluntario.Size = new System.Drawing.Size(83, 52);
+            this.btnVoluntario.Size = new System.Drawing.Size(87, 52);
             this.btnVoluntario.TabIndex = 0;
             this.btnVoluntario.Text = "Voluntário";
             this.btnVoluntario.UseVisualStyleBackColor = true;
@@ -54,9 +56,9 @@
             // 
             // pnHome
             // 
-            this.pnHome.Location = new System.Drawing.Point(123, 13);
+            this.pnHome.Location = new System.Drawing.Point(104, 12);
             this.pnHome.Name = "pnHome";
-            this.pnHome.Size = new System.Drawing.Size(649, 536);
+            this.pnHome.Size = new System.Drawing.Size(661, 536);
             this.pnHome.TabIndex = 1;
             // 
             // HomeView
@@ -67,6 +69,7 @@
             this.Controls.Add(this.pnHome);
             this.Controls.Add(this.flwButtons);
             this.Name = "HomeView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
             this.flwButtons.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -77,6 +80,6 @@
 
         private System.Windows.Forms.FlowLayoutPanel flwButtons;
         private System.Windows.Forms.Button btnVoluntario;
-        private System.Windows.Forms.Panel pnHome;
+        public System.Windows.Forms.Panel pnHome;
     }
 }

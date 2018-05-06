@@ -12,7 +12,7 @@ namespace projetoLp3.model
     class PessoaDAO
     {
         //ConexaoModel conexao = new ConexaoModel(); //Implementar depois
-        private const String stringConexao = "server=localhost; user= root;database=projetovoluntario; port=3306; password=skiter";
+        private const String stringConexao = "server=localhost; user= root;database=projetovoluntario; port=3306; password=skiter; SslMode=none";
         private MySqlConnection conexao;
         public void createPessoa(PessoaModel pessoaModel)
         {
@@ -61,6 +61,33 @@ namespace projetoLp3.model
                 }
 
                 return pessoaModel;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw ex;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+        }
+
+        public DataTable readPessoasTable()
+        {
+            try
+            {
+                String consulta = "select cpf as 'CPF', nome as 'Nome', celular as 'Celular', email as 'E-mail' from voluntario";
+                conexao = new MySqlConnection(stringConexao);
+                MySqlCommand cmd = new MySqlCommand(consulta, conexao);
+                conexao.Open();
+
+                MySqlDataAdapter dataAdapter = new MySqlDataAdapter();
+                dataAdapter.SelectCommand = cmd;
+
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+                return dataTable;
             }
             catch (Exception ex)
             {

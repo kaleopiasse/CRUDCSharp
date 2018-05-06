@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projetoLp3.view;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,11 +20,20 @@ namespace projetoLp3
 
         private void btnVoluntario_Click(object sender, EventArgs e)
         {
+            /*
             VoluntarioView voluntarioView = new VoluntarioView();
             voluntarioView.TopLevel = false;
             pnHome.Controls.Add(voluntarioView);
             voluntarioView.FormBorderStyle = FormBorderStyle.None;
             voluntarioView.Show();
+            */
+
+            TesteView testeView = new TesteView();
+            testeView.TopLevel = false;
+            pnHome.Controls.Add(testeView);
+            testeView.FormBorderStyle = FormBorderStyle.None;
+            testeView.Show();
+
         }
     }
 }
